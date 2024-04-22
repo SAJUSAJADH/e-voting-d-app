@@ -56,6 +56,11 @@ function VoterNavbar({ route }) {
       route: 'dashboard',
     },
     {
+      navName: 'Announcements',
+      Link: `/voter/${wallet}/announcements`,
+      route: 'announcements',
+    },
+    {
       navName: 'Profile',
       Link: `/voter/${wallet}/profile`,
       route: 'profile',

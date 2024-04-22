@@ -1,3 +1,5 @@
+import face_recognition
+import cv2
 import os, sys
 import numpy as np
 import math
@@ -8,10 +10,10 @@ def face_confidence(face_distance, face_match_threshold=0.6):
     linear_val = (1.0 - face_distance) / (range * 2.0)
 
     if face_distance > face_match_threshold:
-        return str(round(linear_val * 100, 2)) + '%'
+        return str(round(linear_val * 100, 2))
     else:
         value = (linear_val +((1.0 - linear_val) * math.pow((linear_val - 0.5) * 2, 0.2))) * 100
-        return str(round(value, 2)) + '%'
+        return str(round(value, 2))
     
 class FaceRecognition:
     face_locations = []
@@ -26,8 +28,6 @@ class FaceRecognition:
     
 
     def encode_faces(self):
-        import face_recognition
-
         for image in os.listdir('api/faces'):
             face_image = face_recognition.load_image_file(f'api/faces/{image}')
             face_encoding = face_recognition.face_encodings(face_image)[0]
@@ -37,10 +37,6 @@ class FaceRecognition:
 
 
     def run_recognition(self, user_id):
-
-        import face_recognition
-        import cv2
-
         video_capture = cv2.VideoCapture(0)
 
         face_detected = False
@@ -67,7 +63,7 @@ class FaceRecognition:
                 for face_encoding in self.face_encodings:
                     matches = face_recognition.compare_faces(self.known_face_encodings, face_encoding)
                     name = 'UnKnown'
-                    confidence = 'Unknown'
+                    confidence = '0'
 
                     face_distances = face_recognition.face_distance(self.known_face_encodings, face_encoding)
                     best_match_index = np.argmin(face_distances)
@@ -75,12 +71,18 @@ class FaceRecognition:
                     if matches[best_match_index]:
                         name = self.known_face_names[best_match_index]
                         confidence = face_confidence(face_distances[best_match_index])
+                        if (float(confidence) < 90):
+                            name = 'Unknown.0000000000.jpg'
+                            confidence = 'Unknown'
+                    else:
+                        name = 'Unknown.0000000000.jpg'
+                        confidence = 'Unknown'
 
                     name_part= name.split(".")[0]
                     id=name.split(".")[1].upper()
 
 
-                    self.face_names.append(f'{name_part} ({confidence})')
+                    self.face_names.append(f'{name_part} ({confidence}) %')
 
             self.process_current_frame = not self.process_current_frame
 

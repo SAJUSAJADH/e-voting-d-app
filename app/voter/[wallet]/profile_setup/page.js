@@ -8,7 +8,6 @@ import { signOut, useSession } from 'next-auth/react'
 import { LoadingOutlined } from '@ant-design/icons'
 import toast from 'react-hot-toast'
 
-
 function Profile_Setup() {
   const { wallet } = useParams()
   const router = useRouter()
@@ -240,7 +239,9 @@ function Profile_Setup() {
               })
               .catch((e) => {
                 console.error(e)
-                toast.error('Registration failed. Please Try again', { icon: '🚫' })
+                toast.error('Registration failed. Please Try again', {
+                  icon: '🚫',
+                })
                 setIsLoading(false)
               })
           } else {

@@ -13,7 +13,6 @@ import { Vote } from '@/blockchainActions/vote'
 import toast from 'react-hot-toast'
 import { PreLoader } from '@/components/preLoader'
 
-
 function Dashboard() {
   const [selectedElection, setSelectedElection] = useState(null)
   const [options, setOptions] = useState([])
@@ -70,14 +69,14 @@ function Dashboard() {
         })
         const face_data = await face_reg.json()
         const notValidated =
-          (await (face_data?.message).includes('Not validated'))
-        const validated = (await (face_data?.message).includes('face validated'))
+          await (face_data?.message).includes('Not validated')
+        const validated = await (face_data?.message).includes('face validated')
         if (notValidated) {
           const { id } = await face_data
           setVoterId(id)
           setFaceAuthenticated(false)
         }
-        if(validated){
+        if (validated) {
           const { id } = await face_data
           setVoterId(id)
           setFaceAuthenticated(true)
@@ -133,20 +132,19 @@ function Dashboard() {
       status: true,
     })
     try {
-
       const result = await fetch('/api/detect_face', {
         cache: 'no-store',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({userId})
+        body: JSON.stringify({ userId }),
       })
 
       const result_data = await result.json()
       const { message } = result_data
       const success = message.includes('Face Reg Successfull')
-      if(success){
+      if (success) {
         if ((candidateId, address, session)) {
           const { name } = session?.user
           const { address } = selectedElection
@@ -189,7 +187,7 @@ function Dashboard() {
             })
           }
         }
-      }else{
+      } else {
         toast.error('Face Recognition failed. Please Try again', {
           icon: '🚫',
         })

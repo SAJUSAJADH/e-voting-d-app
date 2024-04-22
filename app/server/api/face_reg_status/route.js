@@ -14,7 +14,11 @@ export async function POST(request) {
 
     if (voter.faceAuthenticated) {
       // Face authentication is true, return "validated"
-      return NextResponse.json({ message: 'face validated', status: 200, id: voter.voterId})
+      return NextResponse.json({
+        message: 'face validated',
+        status: 200,
+        id: voter.voterId,
+      })
     } else {
       // Face authentication is false, return voterId
       return NextResponse.json({

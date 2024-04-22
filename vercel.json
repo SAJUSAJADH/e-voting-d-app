@@ -1,3 +1,0 @@
-{
-  "installCommand": "yarn install && pip3 install dlib-19.24.1-cp311-cp311-win_amd64.whl && pip3 install -r requirements.txt"
-}

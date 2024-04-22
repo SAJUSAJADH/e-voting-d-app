@@ -20,7 +20,7 @@ export async function POST(request) {
 
     return NextResponse.json({
       message: 'Face ID updated successfully',
-      status: 200
+      status: 200,
     })
   } catch (error) {
     return NextResponse.json({
